@@ -133,16 +133,32 @@ try {
 
         data.forEach(item => {
             const card = createCard(item);
-            goodsList.append(card);
+            goodsList.appendChild(card);
         })
     };
 
-    window.addEventListener('hashchange', () => {
-        hash = location.hash.substring(1);
-        getGoods(renderGoodsList, hash);
-    } )
-    getGoods(renderGoodsList, hash);
-
+    const prepareGoodsPage = () => {
+		hash = window.location.hash.substring(1);
+		getGoods(renderGoodsList, hash);
+		const pageTitle = document.querySelector('.goods__title');
+		switch (hash) {
+			case 'men':
+				pageTitle.textContent = 'Мужчинам';
+				break;
+			case 'women':
+				pageTitle.textContent = 'Женщинам';
+				break;
+			case 'kids':
+				pageTitle.textContent = 'Детям';
+				break;
+			default:
+				pageTitle.textContent = '';
+		}
+    }
+    
+    window.addEventListener('hashchange', prepareGoodsPage);
+    prepareGoodsPage();
+    
 } catch (err) {
     console.warn(err);
 }
